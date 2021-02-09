@@ -110,9 +110,8 @@ const queryTable_checkPass = async (user_detail, socket) => {
     };
     await dynamodb.scan(params, async function(err, data) {
         if (err) console.log(err);
-        else {await compareHash(user_detail.password,data.Items[0].password, socket)};
+        else {console.log(user_detail,data);if (data.Count != 0){await compareHash(user_detail.password,data.Items[0].password, socket)}else{socket.emit("auth_verified",{data:false});}};
         });
-    
 }
 
 const compareHash = async (user_pass,hash,socket) => {

@@ -30,6 +30,7 @@ export default class App extends React.Component {
                 this.setState({modalState: false});
             }
             else {
+                console.log(msg.data)
                 //var projectdatabaseUpdated = this.state.projectdatabaseUpdated ? <ProjectList project_list={this.state.projectdatabaseUpdated}/> : [{}];
                 alert("INVALID CREDS!");
             }
