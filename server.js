@@ -1,7 +1,10 @@
 let express = require('express');
 let app = express();
 let http = require('http').createServer(app);
-let io = require('socket.io')(http);
+let io = require('socket.io')(http, {
+    pingTimeout: 60000, // 1 minutes
+    pingInterval: 5000 // 5 seconds
+});
 let AWS = require('aws-sdk');
 AWS.config.loadFromPath('./creds.json');
 let userAuth_verified = false;
@@ -78,6 +81,7 @@ const addProject = async(user_details, socket) => {
     await dynamoDB.scan(params, function(err, data) {
         if (err) console.log("Error while getting total number of items in User Table", err.stack); // an error occurred
         else {
+            console.log(data);
             var params = {
                 TableName : "Team_Projects",
                 Item: {
@@ -160,16 +164,26 @@ const queryTable_Projects_Update = async (SN,socket) => {
 
 io.on('connection', function (socket) {
 
+    io.eio.pingTimeout = 60000; // 1 minutes
+    io.eio.pingInterval = 5000; // 5 seconds
+
     socket.on('auth_login', async(msg) => {
+        clearTimeout(socket.inactivityTimeout);
         await queryTable_checkPass(msg.data, socket);
         //console.log(authentication);
         //await queryTable_Events(socket);
+        socket.inactivityTimeout = setTimeout(() => socket.disconnect(true), 60000);
     });
 
     socket.on("add_project", async(msg) => {
+        clearTimeout(socket.inactivityTimeout);
         await addProject(msg.data, socket);
+        socket.inactivityTimeout = setTimeout(() => socket.disconnect(true), 60000);
         //console.log(authentication);
         //await queryTable_Events(socket);
     });
 
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
 });

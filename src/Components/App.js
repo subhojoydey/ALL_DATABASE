@@ -7,12 +7,15 @@ import socketIOClient from "socket.io-client";
 import MaterialTable from "material-table";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FormGroup } from '@material-ui/core';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 //043280940074
 
 Modal.setAppElement("#root");
 
 export default class App extends React.Component {
+
     state = {
         modalState: true,
         projectdatabaseUpdated: [{}]
@@ -57,70 +60,77 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div className="App">
-
-                <div id="UserAuth">
-                    <Form_auth modalState_prop={this.state.modalState} get_auth={this.send_auth}/>
-                </div>
-
-                <div className="App-header">
-                    <div className="App-logo">
-                        AWSCD
+            <Container>
+                <div className="App">
+                   
+                    <div id="UserAuth">
+                        <Form_auth modalState_prop={this.state.modalState} get_auth={this.send_auth}/>
                     </div>
-                </div>
+                    
+                    <Row>
+                        <Col>
+                            <div className="App-header">
+                                <div className="App-logo">
+                                    AWSCD
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
 
-                <div id="ProjectHead" >
-                    <p id="page heading">GOD'S EYE</p>
-                </div>
-        
-                <div id="EventsDatabase">
-                    <div style={{
-                        maxWidth: "80%",
-                        display: "block",
-                        margin: "auto"
-                    }}>
-                        <MaterialTable
-                            columns={[
-                            {
-                                title: "SERIAL NUMBER",
-                                field: "SN",
-                                defaultSort: "asc",
-                                cellStyle: { backgroundColor: '#039be5', color: '#FFF', textAlign: "center"}, 
-                                headerStyle: { backgroundColor: '#039be5', textAlign: "center" } 
-                            },
-                             {
-                                title: "PURPOSE",
-                                field: "Purpose",
-                                cellStyle: { textAlign: "center" }, 
-                                headerStyle: { textAlign: "center" } 
-                            }, {
-                                title: "NAME OF PROJECT",
-                                field: "Name of Project",
-                                cellStyle: { textAlign: "center" }, 
-                                headerStyle: { textAlign: "center" } 
-                            },
+                    <div id="ProjectHead" >
+                        <p id="page heading">GOD'S EYE</p>
+                    </div>
+            
+                    <div id="EventsDatabase">
+                        <div style={{
+                            maxWidth: "80%",
+                            display: "block",
+                            margin: "auto"
+                        }}>
+                            <MaterialTable
+                                columns={[
+                                {
+                                    title: "SERIAL NUMBER",
+                                    field: "SN",
+                                    defaultSort: "asc",
+                                    cellStyle: { backgroundColor: '#039be5', color: '#FFF', textAlign: "center"}, 
+                                    headerStyle: { backgroundColor: '#039be5', textAlign: "center" } 
+                                },
+                                {
+                                    title: "PURPOSE",
+                                    field: "Purpose",
+                                    cellStyle: { textAlign: "center" }, 
+                                    headerStyle: { textAlign: "center" } 
+                                }, {
+                                    title: "NAME OF PROJECT",
+                                    field: "Name of Project",
+                                    cellStyle: { textAlign: "center" }, 
+                                    headerStyle: { textAlign: "center" } 
+                                },
 
-                        ]}
-                            data={this.state.projectdatabaseUpdated}
-                            title="Projects Table"
-                            options={{
-                                headerStyle: {
-                                  backgroundColor: '#01579b',
-                                  fontSize: 20,
-                                  color: '#FFF'
-                                }
-                            }}
+                            ]}
+                                data={this.state.projectdatabaseUpdated}
+                                title="Projects Table"
+                                options={{
+                                    headerStyle: {
+                                    backgroundColor: '#01579b',
+                                    fontSize: 20,
+                                    color: '#FFF'
+                                    }
+                                }}
+                                
+                            />
                             
-                        />
-                           
+                        </div>
                     </div>
-                </div>
 
-                <div id="AddProject">
-                    <ProjectInput add_project={this.send_new_project}/>
-                </div>
+                    <div id="AddProject">
+                        <ProjectInput add_project={this.send_new_project}/>
+                    </div>
 
-            </div>
+                </div>
+                
+            </Container>
         );
     }
 }
