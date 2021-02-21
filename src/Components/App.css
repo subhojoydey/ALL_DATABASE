@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "IlluFont";
+  src: url("//db.onlinewebfonts.com/t/a4a2a1b5eed20ed5a74b2193a62398f6.ttf") format("truetype");
+}
+
 .App {
   font-family: "Amazon-Ember", Arial, Helvetica, sans-serif;
   text-align: center;
@@ -5,9 +10,9 @@
 
 .App-logo {
   z-index: 2;
-  letter-spacing: 2px;
-  font-size: 40px;
-  line-height: 1.4;
+  letter-spacing: 11px;
+  font-size: 60px;
+  line-height: 3;
   font-weight: 700;
   pointer-events: none;
 }
@@ -22,19 +27,37 @@
   margin: 20px;
 }
 
-.App #ProjectHead {
+.next-line {
+  word-wrap: break-word;
+}
+
+#ProjectHead {
+  font-family: "IlluFont";
   letter-spacing: 2px;
-  font-size: 40px;
-  line-height: 1.4;
-  font-weight: 700;
+  font-size: 60px;
+  line-height: 1;
+  font-weight: 800;
   pointer-events: none;
+  display: inline;
 }
 
-#page heading {
-  border: 200;
-  margin: 200;
+.jumbotron {
+  margin-bottom: 0rem;
+  padding: 0rem 0rem;
 }
 
+#image {
+  display: inline;
+}
+
+img {
+  width: 55px;
+}
+
+#ProjectDatabase {
+  border-top: 100;
+  border-bottom: 100;
+}
 
 .App-header {
   background-color: #282c34;

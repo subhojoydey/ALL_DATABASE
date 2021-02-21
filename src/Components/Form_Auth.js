@@ -56,8 +56,8 @@ class FormInput extends React.Component {
         return (
             <Modal
                 show={this.props.modalState_prop}
-                animation="true"
-                backdrop="true"
+                animation={true}
+                backdrop="static"
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>

@@ -1,7 +1,8 @@
 import React from 'react';
-import Modal, { defaultStyles } from "react-modal";
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
-import Button from 'react-bootstrap/Button';
 
 class ProjectInput extends React.Component {
     constructor(props) {
@@ -25,6 +26,7 @@ class ProjectInput extends React.Component {
     }
 
     openModal() {
+        this.check_valid=1;
         this.setState({
             modalState: true
         });
@@ -32,7 +34,9 @@ class ProjectInput extends React.Component {
 
     toggleModal() {
         this.setState({
-            modalState: false
+            modalState: false,
+            [this.valid_strings[0]]: '',
+            [this.valid_strings[1]]: ''
         });
     }
 
@@ -57,14 +61,15 @@ class ProjectInput extends React.Component {
         event.preventDefault();
         var data = this.state;
         delete data['modalState'];
-        if(data.Purpose.trim()=='' || data.NP.trim()==''){
-            alert("Please Dont enter nothing, be sensible =.=");
-        }
-        else {
+        if(data.Purpose.trim()!='' && data.NP.trim()!=''){
             this.props.add_project(data);
-            console.log(data);
             event.target.reset();
             this.check_valid=1;
+            this.toggleModal();
+        }
+        else {
+            event.target.reset();
+            alert("Please Dont enter nothing, be sensible =.=");
             this.toggleModal();
         }
     }
@@ -72,16 +77,45 @@ class ProjectInput extends React.Component {
     render() {
         return (
             <div>
-            <Button variant="outline-success" size="l" onClick={this.openModal}>Add Project</Button>
-            <Modal isOpen={this.state.modalState} shouldCloseOnOverlayClick={false} contentLabel="My dialog">
-                <h1>Enter New Project</h1>
-                <div id="New_project" action="POST">
-                <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label>Purpose</label><input type='text' name='Purpose' onChange={this.handleChange}/>
-                    <label>Name of Project</label><input type='text' name='NP' onChange={this.handleChange}/></div><input type="submit" value="Submit"/></form>
-                </div>
-            </Modal>
+                <Button variant="outline-success" size="l" onClick={this.openModal}>Add Project</Button>
+                <Modal show={this.state.modalState}
+                    aria-labelledby="contained-modal-title-vcenter"
+                    size="lg"
+                    autoFocus={true}
+                    animation={true}
+                    backdrop={true}
+                    keyboard={true}
+                    onHide={this.toggleModal}
+                    centered>
+                        <Modal.Header closeButton>
+                            <Modal.Title id="new project">
+                                Enter New Project
+                            </Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <Form onSubmit={this.handleSubmit}>
+
+                                <Form.Group controlId="formProjectPurpose">
+                                    <Form.Label>Purpose</Form.Label>
+                                    <Form.Control type='text' name='Purpose' placeholder="Project Purpose" onChange={this.handleChange}/>
+                                    <Form.Text className="text-muted">
+                                        Wow, great idea
+                                    </Form.Text>
+                                </Form.Group>
+
+                                <Form.Group controlId="formProjectNP">
+                                    <Form.Label>Name of Project</Form.Label>
+                                    <Form.Control type="text" placeholder="Project Name" name='NP' onChange={this.handleChange}/>
+                                </Form.Group>
+
+                                <Button variant="primary" type="submit">
+                                    Submit
+                                </Button>
+
+                            </Form>
+                        </Modal.Body>
+                </Modal>
             </div>
         //<InnerHTML html={html} />
         );
